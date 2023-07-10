@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Etch A Sketch</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="index.js" defer></script>
+  </head>
+  <body>
+    <h1>Etch A Sketch</h1>
+    <div class="sketch-app-container">
+      <div class="sketch-controls">
+        <label for="brush-color-picker">Brush Color:</label>
+        <input
+          value="#000000"
+          class="control"
+          id="brush-color-picker"
+          type="color"
+        />
+        <label for="back-color-picker">Background Color:</label>
+        <input
+          value="#ffffff"
+          class="control"
+          id="back-color-picker"
+          type="color"
+        />
+      </div>
+      <div class="sketch-board">
+        <div class="sketch-pixels"></div>
+        <p class="howto">
+          Draw = Mouse LClick | Erase = Mouse LClick +
+          <span class="special-key">Ctrl</span>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
