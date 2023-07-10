@@ -11,20 +11,38 @@
     <h1>Etch A Sketch</h1>
     <div class="sketch-app-container">
       <div class="sketch-controls">
-        <label for="brush-color-picker">Brush Color:</label>
-        <input
-          value="#000000"
-          class="control"
-          id="brush-color-picker"
-          type="color"
-        />
-        <label for="back-color-picker">Background Color:</label>
-        <input
-          value="#ffffff"
-          class="control"
-          id="back-color-picker"
-          type="color"
-        />
+        <div class="toggle-container">
+          <button class="toggle-grid">Toggle Grid</button>
+        </div>
+        <div class="brush-color-container">
+          <label for="brush-color-picker">Brush Color:</label>
+          <input
+            value="#000000"
+            class="control"
+            id="brush-color-picker"
+            type="color"
+          />
+        </div>
+        <div class="back-color-container">
+          <label for="back-color-picker">Background Color:</label>
+          <input
+            value="#ffffff"
+            class="control"
+            id="back-color-picker"
+            type="color"
+          />
+        </div>
+        <div class="dimention-container">
+          <label for="dimention-range">Sketch Size: 16x16</label>
+          <input
+            id="dimention-range"
+            class="control"
+            type="range"
+            min="10"
+            max="30"
+            value="16"
+          />
+        </div>
       </div>
       <div class="sketch-board">
         <div class="sketch-pixels"></div>

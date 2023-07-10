@@ -7,15 +7,32 @@ h1 {
   justify-content: space-between;
 }
 
+.row {
+  flex: auto;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
 .sketch-board {
   text-align: center;
   margin: 0 auto;
+  justify-content: stretch;
+  align-items: stretch;
 }
 .sketch-pixels {
-  flex: 1;
+  /* flex: none; */
   margin: auto;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  /* align-content: space-between; */
+  align-items: stretch;
+  flex-wrap: nowrap;
   padding: 0;
   width: 480px;
   height: 480px;
@@ -26,20 +43,18 @@ h1 {
 .sketch-controls {
 }
 
-input[type="color"] {
-  border-radius: 100%;
-}
-
 .control {
   margin-left: 20px;
 }
 
 .pixel {
+  flex: none;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  width: 30px;
-  height: 30px;
+}
+
+.pixel-border {
   border: 1px solid rgb(216, 215, 215);
 }
 
