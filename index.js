@@ -7,6 +7,45 @@ function disableWindowEvents() {
   };
 }
 
+function setColors() {
+  brushColorPicker.value = brushColor;
+  backColorPicker.value = backColor;
+}
+
+function replaceColors(e) {
+  let tmpColor = brushColor;
+  brushColor = backColor;
+  backColor = tmpColor;
+  setColors();
+}
+
+function resetColors(e) {
+  brushColor = "#000000";
+  backColor = "#ffffff";
+  setColors();
+}
+
+function rgbToHex(rgb) {
+  let colors = rgb.slice(4, rgb.length - 1).split(",");
+  let hex = "#";
+  for (let i = 0; i < 3; i++) {
+    colors[i] = parseInt(colors[i]).toString(16).padStart(2, "0");
+    hex += colors[i];
+  }
+  return hex;
+}
+
+function showContextMenu(e) {
+  contextPixel = e.srcElement;
+  contextMenu.classList.add("visible");
+  contextMenu.style.top = `${e.y - 10}px`;
+  contextMenu.style.left = `${e.x - 10}px`;
+}
+
+function hideContextMenu(e) {
+  contextMenu.classList.remove("visible");
+}
+
 function updateDimentionLabel() {
   const dsize = dimentionRange.value;
   dimentionLabel.innerText = `Sketch Size: ${dsize}x${dsize}`;
@@ -87,6 +126,7 @@ const brushColorPicker = document.querySelector("#brush-color-picker");
 const backColorPicker = document.querySelector("#back-color-picker");
 const dimentionRange = document.querySelector("#dimention-range");
 const dimentionLabel = document.querySelector(".dimention-container > label");
+const contextMenu = document.querySelector(".context-menu");
 
 let pixels = [];
 let rows = [];
@@ -94,6 +134,7 @@ let brushColor;
 let backColor;
 let dimentionSize;
 let pixelSize;
+let contextPixel;
 
 function init() {
   brushColor = brushColorPicker.value;
@@ -104,6 +145,19 @@ function init() {
   document.querySelector(".toggle-grid").addEventListener("click", (e) => {
     toggleGrid();
   });
+
+  document.querySelector(".clear-sketch").addEventListener("click", (e) => {
+    removePixels();
+    createPixels();
+  });
+
+  document
+    .querySelector(".reset-colors")
+    .addEventListener("click", resetColors);
+
+  document
+    .querySelector(".replace-colors")
+    .addEventListener("click", replaceColors);
 
   brushColorPicker.addEventListener("input", (e) => {
     brushColor = brushColorPicker.value;
@@ -120,6 +174,24 @@ function init() {
     removePixels();
     createPixels();
   });
+
+  sketchPixels.addEventListener("contextmenu", showContextMenu);
+  contextMenu.addEventListener("mouseleave", hideContextMenu);
+  contextMenu.addEventListener("mousedown", hideContextMenu);
+
+  document
+    .querySelector(".pick-for-brush")
+    .addEventListener("mousedown", (e) => {
+      brushColor = rgbToHex(contextPixel.style.backgroundColor);
+      setColors();
+    });
+
+  document
+    .querySelector(".pick-for-background")
+    .addEventListener("mousedown", (e) => {
+      backColor = rgbToHex(contextPixel.style.backgroundColor);
+      setColors();
+    });
 
   createPixels();
 }

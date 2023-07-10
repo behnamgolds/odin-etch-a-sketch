@@ -8,48 +8,66 @@
     <script src="index.js" defer></script>
   </head>
   <body>
-    <h1>Etch A Sketch</h1>
-    <div class="sketch-app-container">
-      <div class="sketch-controls">
-        <div class="toggle-container">
-          <button class="toggle-grid">Toggle Grid</button>
+    <div class="page-container">
+      <div class="sketch-app-container">
+        <div class="sketch-controls">
+          <div class="control-container toggle-container">
+            <button class="control toggle-grid">Toggle Grid Lines</button>
+          </div>
+          <div class="control-container clear-container">
+            <button class="control clear-sketch">Clear Sketch</button>
+          </div>
+          <div class="control-container reset-colors-container">
+            <button class="control reset-colors">Reset Colors</button>
+          </div>
+          <div class="control-container brush-color-container">
+            <label for="brush-color-picker">Brush Color:</label>
+            <input
+              value="#000000"
+              class="control"
+              id="brush-color-picker"
+              type="color"
+            />
+          </div>
+          <div class="control-container replace-colors-container">
+            <button class="control replace-colors">&#8597;</button>
+          </div>
+          <div class="control-container back-color-container">
+            <label for="back-color-picker">Background Color:</label>
+            <input
+              value="#ffffff"
+              class="control"
+              id="back-color-picker"
+              type="color"
+            />
+          </div>
+          <div class="control-container dimention-container">
+            <label for="dimention-range">Sketch Size: 16x16</label>
+            <input
+              id="dimention-range"
+              class="control"
+              type="range"
+              min="10"
+              max="30"
+              value="16"
+            />
+          </div>
         </div>
-        <div class="brush-color-container">
-          <label for="brush-color-picker">Brush Color:</label>
-          <input
-            value="#000000"
-            class="control"
-            id="brush-color-picker"
-            type="color"
-          />
-        </div>
-        <div class="back-color-container">
-          <label for="back-color-picker">Background Color:</label>
-          <input
-            value="#ffffff"
-            class="control"
-            id="back-color-picker"
-            type="color"
-          />
-        </div>
-        <div class="dimention-container">
-          <label for="dimention-range">Sketch Size: 16x16</label>
-          <input
-            id="dimention-range"
-            class="control"
-            type="range"
-            min="10"
-            max="30"
-            value="16"
-          />
+        <div class="sketch-board">
+          <div class="sketch-pixels"></div>
+          <div class="howto">
+            <p>Draw = Mouse LClick | Erase = Mouse LClick + Ctrl</p>
+            <p>Pick Color = RClick on a pixel</p>
+          </div>
         </div>
       </div>
-      <div class="sketch-board">
-        <div class="sketch-pixels"></div>
-        <p class="howto">
-          Draw = Mouse LClick | Erase = Mouse LClick +
-          <span class="special-key">Ctrl</span>
-        </p>
+      <h1>Etch A Sketch</h1>
+    </div>
+    <div class="context-menu">
+      <div class="context-menu-item pick-for-brush">to brush color</div>
+      <hr />
+      <div class="context-menu-item pick-for-background">
+        to background color
       </div>
     </div>
   </body>
