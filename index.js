@@ -12,7 +12,7 @@ function setColors() {
   backColorPicker.value = backColor;
 }
 
-function replaceColors(e) {
+function swapColors(e) {
   let tmpColor = brushColor;
   brushColor = backColor;
   backColor = tmpColor;
@@ -155,9 +155,7 @@ function init() {
     .querySelector(".reset-colors")
     .addEventListener("click", resetColors);
 
-  document
-    .querySelector(".replace-colors")
-    .addEventListener("click", replaceColors);
+  document.querySelector(".swap-colors").addEventListener("click", swapColors);
 
   brushColorPicker.addEventListener("input", (e) => {
     brushColor = brushColorPicker.value;

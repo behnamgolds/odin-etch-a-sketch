@@ -16,6 +16,7 @@ h1 {
 
 label {
   margin-right: 10px;
+  min-width: max-content;
 }
 
 .page-container {
@@ -64,6 +65,7 @@ label {
 }
 
 .sketch-controls {
+  min-width: 25%;
   padding: 0;
   display: flex;
   flex-direction: column;
