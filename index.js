@@ -6,11 +6,7 @@ function disableWindowEvents() {
     return false;
   };
 
-  window.onmousedown = (e) => {
-    return false;
-  };
-
-  window.onmousemove = (e) => {
+  window.onselectstart = (e) => {
     return false;
   };
 
