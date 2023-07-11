@@ -5,23 +5,37 @@ function disableWindowEvents() {
   window.oncontextmenu = (e) => {
     return false;
   };
+
+  window.onmousedown = (e) => {
+    return false;
+  };
+
+  window.onmousemove = (e) => {
+    return false;
+  };
+
+  window.onkeydown = (e) => {
+    if (e.ctrlKey && e.code === "KeyA") return false;
+  };
 }
 
 function setColors() {
-  brushColorPicker.value = brushColor;
-  backColorPicker.value = backColor;
+  brushColorPickerOne.value = brushColorOne;
+  brushColorPickerTwo.value = brushColorTwo;
+  eraserColorPicker.value = eraserColor;
 }
 
 function swapColors(e) {
-  let tmpColor = brushColor;
-  brushColor = backColor;
-  backColor = tmpColor;
+  let tmpColor = brushColorOne;
+  brushColorOne = brushColorTwo;
+  brushColorTwo = tmpColor;
   setColors();
 }
 
 function resetColors(e) {
-  brushColor = "#000000";
-  backColor = "#ffffff";
+  brushColorOne = "#000000";
+  brushColorTwo = "#ff0000";
+  eraserColor = "#ffffff";
   setColors();
 }
 
@@ -43,6 +57,7 @@ function showContextMenu(e) {
 }
 
 function hideContextMenu(e) {
+  e.stopPropagation();
   contextMenu.classList.remove("visible");
 }
 
@@ -62,10 +77,12 @@ function draw(pixel, color) {
 function colorPixels(e) {
   e.stopPropagation();
   if (e.buttons === 1) {
-    if (e.ctrlKey === false) {
-      draw(this, brushColor);
+    if (e.ctrlKey) {
+      draw(this, eraserColor);
+    } else if (e.shiftKey) {
+      draw(this, brushColorTwo);
     } else {
-      draw(this, backColor);
+      draw(this, brushColorOne);
     }
   }
 }
@@ -82,7 +99,7 @@ function initializePixel(pixel, i) {
   pixel.addEventListener("mouseenter", colorPixels);
   pixel.addEventListener("mousemove", colorPixels);
   pixel.addEventListener("mousedown", colorPixels);
-  draw(pixel, backColor);
+  draw(pixel, eraserColor);
   pixel.style.minWidth = toPixels(pixelSize);
   pixel.style.minHeight = toPixels(pixelSize);
 }
@@ -120,25 +137,28 @@ function removePixels() {
   rows = [];
 }
 
-disableWindowEvents();
 const sketchPixels = document.querySelector(".sketch-pixels");
-const brushColorPicker = document.querySelector("#brush-color-picker");
-const backColorPicker = document.querySelector("#back-color-picker");
+const brushColorPickerOne = document.querySelector("#brush-color-picker-one");
+const brushColorPickerTwo = document.querySelector("#brush-color-picker-two");
+const eraserColorPicker = document.querySelector("#eraser-color-picker");
 const dimentionRange = document.querySelector("#dimention-range");
 const dimentionLabel = document.querySelector(".dimention-container > label");
 const contextMenu = document.querySelector(".context-menu");
 
 let pixels = [];
 let rows = [];
-let brushColor;
-let backColor;
+let brushColorOne;
+let brushColorTwo;
+let eraserColor;
 let dimentionSize;
 let pixelSize;
 let contextPixel;
 
 function init() {
-  brushColor = brushColorPicker.value;
-  backColor = backColorPicker.value;
+  disableWindowEvents();
+  brushColorOne = brushColorPickerOne.value;
+  brushColorTwo = brushColorPickerTwo.value;
+  eraserColor = eraserColorPicker.value;
   dimentionSize = parseInt(dimentionRange.value);
   pixelSize = Math.floor(sketchPixels.clientHeight / dimentionSize);
 
@@ -157,12 +177,16 @@ function init() {
 
   document.querySelector(".swap-colors").addEventListener("click", swapColors);
 
-  brushColorPicker.addEventListener("input", (e) => {
-    brushColor = brushColorPicker.value;
+  brushColorPickerOne.addEventListener("input", (e) => {
+    brushColorOne = brushColorPickerOne.value;
   });
 
-  backColorPicker.addEventListener("input", (e) => {
-    backColor = backColorPicker.value;
+  brushColorPickerTwo.addEventListener("input", (e) => {
+    brushColorTwo = brushColorPickerTwo.value;
+  });
+
+  eraserColorPicker.addEventListener("input", (e) => {
+    eraserColor = eraserColorPicker.value;
   });
 
   dimentionRange.addEventListener("input", (e) => {
@@ -175,20 +199,30 @@ function init() {
 
   sketchPixels.addEventListener("contextmenu", showContextMenu);
   contextMenu.addEventListener("mouseleave", hideContextMenu);
-  contextMenu.addEventListener("mousedown", hideContextMenu);
+  contextMenu.addEventListener("mouseup", hideContextMenu);
 
   document
-    .querySelector(".pick-for-brush")
+    .querySelector(".pick-for-brush-one")
     .addEventListener("mousedown", (e) => {
-      brushColor = rgbToHex(contextPixel.style.backgroundColor);
+      brushColorOne = rgbToHex(contextPixel.style.backgroundColor);
       setColors();
+      e.stopPropagation();
     });
 
   document
-    .querySelector(".pick-for-background")
+    .querySelector(".pick-for-brush-two")
     .addEventListener("mousedown", (e) => {
-      backColor = rgbToHex(contextPixel.style.backgroundColor);
+      brushColorTwo = rgbToHex(contextPixel.style.backgroundColor);
       setColors();
+      e.stopPropagation();
+    });
+
+  document
+    .querySelector(".pick-for-eraser")
+    .addEventListener("mousedown", (e) => {
+      eraserColor = rgbToHex(contextPixel.style.backgroundColor);
+      setColors();
+      e.stopPropagation();
     });
 
   createPixels();

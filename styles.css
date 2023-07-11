@@ -3,7 +3,8 @@ body {
   padding: 0;
   background-color: rgb(85, 158, 188);
   color: rgb(220, 231, 241);
-  /* font-size: 1rem; */
+  cursor: default;
+  caret-color: aqua;
 }
 
 h1 {
@@ -50,7 +51,9 @@ label {
   justify-content: stretch;
   align-items: stretch;
 }
+
 .sketch-pixels {
+  cursor: url("images/pen-icon.png"), default;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -101,6 +104,7 @@ label {
 .context-menu {
   position: absolute;
   z-index: 100;
+  border: 2px solid rgb(78, 78, 78);
   border-radius: 5px;
   display: none;
   text-align: left;
@@ -115,12 +119,14 @@ label {
 }
 
 .context-menu > div {
-  padding: 10px;
+  /* margin: 10px; */
+  padding: 20px;
   color: rgb(255, 255, 255);
   border-radius: inherit;
 }
 
 .context-menu > hr {
+  border: 1px solid rgb(78, 78, 78);
   padding: 0;
   margin: 0;
 }

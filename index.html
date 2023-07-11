@@ -20,26 +20,45 @@
           <div class="control-container reset-colors-container">
             <button class="control reset-colors">Reset Colors</button>
           </div>
-          <div class="control-container brush-color-container">
-            <label for="brush-color-picker">Brush Color:</label>
+          <div
+            title="LMB and hover or click pixels"
+            class="control-container brush-color-container-one"
+          >
+            <label for="brush-color-picker-one">Brush Color 1:</label>
             <input
               value="#000000"
               class="control"
-              id="brush-color-picker"
+              id="brush-color-picker-one"
               type="color"
             />
           </div>
           <div class="control-container swap-colors-container">
-            <button title="Swap Colors" class="control swap-colors">
+            <button title="Swap Brush Colors" class="control swap-colors">
               &#8597;
             </button>
           </div>
-          <div class="control-container back-color-container">
-            <label for="back-color-picker">Background Color:</label>
+          <div
+            title="LMB + hold Shift"
+            class="control-container brush-color-container-two"
+          >
+            <label for="brush-color-picker-two">Brush Color 2:</label>
+            <input
+              value="#ff0000"
+              class="control"
+              id="brush-color-picker-two"
+              type="color"
+            />
+          </div>
+
+          <div
+            title="LMB + hold Ctrl"
+            class="control-container eraser-color-container"
+          >
+            <label for="eraser-color-picker">Eraser Color:</label>
             <input
               value="#ffffff"
               class="control"
-              id="back-color-picker"
+              id="eraser-color-picker"
               type="color"
             />
           </div>
@@ -66,11 +85,11 @@
       <h1>Etch A Sketch</h1>
     </div>
     <div class="context-menu">
-      <div class="context-menu-item pick-for-brush">to brush color</div>
+      <div class="context-menu-item pick-for-brush-one">to brush 1 color</div>
       <hr />
-      <div class="context-menu-item pick-for-background">
-        to background color
-      </div>
+      <div class="context-menu-item pick-for-brush-two">to brush 2 color</div>
+      <hr />
+      <div class="context-menu-item pick-for-eraser">to eraser color</div>
     </div>
   </body>
 </html>
