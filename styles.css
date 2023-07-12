@@ -16,6 +16,7 @@ h1 {
 }
 
 label {
+  /* flex: none; */
   margin-right: 10px;
   min-width: max-content;
 }
@@ -69,18 +70,21 @@ label {
 
 .sketch-controls {
   min-width: 25%;
-  padding: 0;
+  /* padding: 10px; */
+  margin-left: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* margin: auto 0; */
 }
 
 .control-container {
+  flex: none;
+  width: 50%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 10px 0 20px 20px;
+  padding: 0;
+  margin: 10px 0 10px 10px;
 }
 
 .control-container > * {
@@ -136,5 +140,82 @@ label {
 }
 
 .howto {
-  font-size: 1.2rem;
+  font-size: 1rem;
+}
+
+.color-picker {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: -3px;
+  opacity: 0;
+}
+
+.color-circle,
+.swap-colors {
+  flex: none;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid beige;
+}
+
+.color-circle {
+  /* z-index: 1000; */
+  /* pointer-events: none; */
+}
+
+#brush-color-circle-one {
+  background-color: black;
+}
+
+#brush-color-circle-two {
+  background-color: red;
+}
+
+#eraser-color-circle {
+  background-color: white;
+  border-color: rgb(244, 87, 241);
+}
+
+.swap-colors-container {
+  padding: 0;
+  position: relative;
+}
+
+.swap-colors {
+  position: absolute;
+  right: 35%;
+  margin: 0;
+  color: blue;
+  background-color: azure;
+  text-align: center;
+}
+
+.brush-color-container-one {
+  padding-bottom: 0;
+}
+
+.brush-color-container-two {
+  margin-bottom: 0;
+}
+
+.eraser-color-container {
+  margin-top: 30px;
+}
+
+.color-container {
+  position: relative;
+}
+
+.dimention-container {
+  flex-direction: column;
+  align-content: space-between;
+  align-items: stretch;
+}
+
+.import-sketch {
+  display: none;
 }

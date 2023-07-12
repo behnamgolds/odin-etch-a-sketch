@@ -15,24 +15,62 @@ function disableWindowEvents() {
   };
 }
 
-function setColors() {
+function readSketchFile(e) {
+  const reader = new FileReader();
+  reader.onload = function () {
+    let colorList = JSON.parse(reader.result);
+    removePixels();
+    dimentionSize = Math.sqrt(colorList.length);
+    createPixels();
+    for (let i = 0; i < pixels.length; i++) {
+      draw(pixels[i], colorList[i]);
+    }
+  };
+  reader.readAsText(this.files[0]);
+}
+
+function genPixelsDLink(e) {
+  let colorsList = [];
+  pixels.forEach((pixel) => {
+    colorsList.push(rgbToHex(pixel.style.backgroundColor));
+  });
+
+  let file = new Blob([`${JSON.stringify(colorsList)}`], {
+    type: "text/plain",
+  });
+  let link = document.createElement("a");
+  link.href = URL.createObjectURL(file);
+  link.download = "sketch.json";
+  let event = new MouseEvent("click");
+  link.dispatchEvent(event);
+}
+
+function setCircleColors() {
+  colorCircles[0].style.backgroundColor = brushColorOne;
+  colorCircles[1].style.backgroundColor = brushColorTwo;
+  colorCircles[2].style.backgroundColor = eraserColor;
+}
+
+function setBrushColors() {
   brushColorPickerOne.value = brushColorOne;
   brushColorPickerTwo.value = brushColorTwo;
   eraserColorPicker.value = eraserColor;
+  setCircleColors();
 }
 
 function swapColors(e) {
   let tmpColor = brushColorOne;
   brushColorOne = brushColorTwo;
   brushColorTwo = tmpColor;
-  setColors();
+  setBrushColors();
+  setCircleColors();
 }
 
 function resetColors(e) {
   brushColorOne = "#000000";
   brushColorTwo = "#ff0000";
   eraserColor = "#ffffff";
-  setColors();
+  setBrushColors();
 }
 
 function rgbToHex(rgb) {
@@ -89,34 +127,32 @@ function toggleGrid() {
   });
 }
 
-function initializePixel(pixel, i) {
+function initializePixel(pixel, i, color) {
   pixel.setAttribute("id", `pix_${i}`);
   pixel.classList.add("pixel");
   pixel.addEventListener("mouseenter", colorPixels);
   pixel.addEventListener("mousemove", colorPixels);
   pixel.addEventListener("mousedown", colorPixels);
-  draw(pixel, eraserColor);
+  draw(pixel, color);
   pixel.style.minWidth = toPixels(pixelSize);
   pixel.style.minHeight = toPixels(pixelSize);
 }
 
 function createPixels() {
-  // craete count x count divs and put inside pixels
-  let rowNum = 0;
+  // craete dimentionSize x dimentionSize divs and put inside pixels array
   let row;
   let pixel;
-  for (let i = 1; i <= dimentionSize; i++) {
+  for (let i = 0; i < dimentionSize; i++) {
     row = document.createElement("div");
     for (let j = 1; j <= dimentionSize; j++) {
       row.classList.add("row");
       pixel = document.createElement("div");
-      initializePixel(pixel, rowNum * i + j);
+      initializePixel(pixel, dimentionSize * i + j);
       row.appendChild(pixel);
       pixels.push(pixel);
     }
     sketchPixels.appendChild(row);
     rows.push(row);
-    rowNum++;
   }
   toggleGrid();
 }
@@ -137,9 +173,12 @@ const sketchPixels = document.querySelector(".sketch-pixels");
 const brushColorPickerOne = document.querySelector("#brush-color-picker-one");
 const brushColorPickerTwo = document.querySelector("#brush-color-picker-two");
 const eraserColorPicker = document.querySelector("#eraser-color-picker");
+const colorCircles = document.querySelectorAll(".color-circle");
 const dimentionRange = document.querySelector("#dimention-range");
 const dimentionLabel = document.querySelector(".dimention-container > label");
 const contextMenu = document.querySelector(".context-menu");
+const importSketch = document.querySelector(".import-sketch");
+// const importSketchBtn = document.querySelector(".import-sketch-btn");
 
 let pixels = [];
 let rows = [];
@@ -173,16 +212,34 @@ function init() {
 
   document.querySelector(".swap-colors").addEventListener("click", swapColors);
 
+  document
+    .querySelector(".save-sketch")
+    .addEventListener("click", genPixelsDLink);
+
+  document
+    .querySelector(".import-sketch-btn")
+    .addEventListener("click", (e) => {
+      importSketch.click();
+    });
+
+  importSketch.addEventListener("change", readSketchFile);
+
   brushColorPickerOne.addEventListener("input", (e) => {
     brushColorOne = brushColorPickerOne.value;
+    // colorCircles[0].style.backgroundColor = brushColorOne;
+    setBrushColors();
   });
 
   brushColorPickerTwo.addEventListener("input", (e) => {
     brushColorTwo = brushColorPickerTwo.value;
+    // colorCircles[1].style.backgroundColor = brushColorTwo;
+    setBrushColors();
   });
 
   eraserColorPicker.addEventListener("input", (e) => {
     eraserColor = eraserColorPicker.value;
+    // colorCircles[2].style.backgroundColor = eraserColor;
+    setBrushColors();
   });
 
   dimentionRange.addEventListener("input", (e) => {
@@ -201,7 +258,7 @@ function init() {
     .querySelector(".pick-for-brush-one")
     .addEventListener("mousedown", (e) => {
       brushColorOne = rgbToHex(contextPixel.style.backgroundColor);
-      setColors();
+      setBrushColors();
       e.stopPropagation();
     });
 
@@ -209,7 +266,7 @@ function init() {
     .querySelector(".pick-for-brush-two")
     .addEventListener("mousedown", (e) => {
       brushColorTwo = rgbToHex(contextPixel.style.backgroundColor);
-      setColors();
+      setBrushColors();
       e.stopPropagation();
     });
 
@@ -217,7 +274,7 @@ function init() {
     .querySelector(".pick-for-eraser")
     .addEventListener("mousedown", (e) => {
       eraserColor = rgbToHex(contextPixel.style.backgroundColor);
-      setColors();
+      setBrushColors();
       e.stopPropagation();
     });
 

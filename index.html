@@ -22,29 +22,35 @@
           </div>
           <div
             title="LMB and hover or click pixels"
-            class="control-container brush-color-container-one"
+            class="control-container color-container brush-color-container-one"
           >
-            <label for="brush-color-picker-one">Brush Color 1:</label>
+            <label for="brush-color-circle-one">Brush Color 1:</label>
+            <div
+              for="brush-color-picker-one"
+              class="color-circle"
+              id="brush-color-circle-one"
+            ></div>
             <input
               value="#000000"
-              class="control"
+              class="color-picker control"
               id="brush-color-picker-one"
               type="color"
             />
           </div>
           <div class="control-container swap-colors-container">
-            <button title="Swap Brush Colors" class="control swap-colors">
+            <div title="Swap Brush Colors" class="control swap-colors">
               &#8597;
-            </button>
+            </div>
           </div>
           <div
             title="LMB + hold Shift"
-            class="control-container brush-color-container-two"
+            class="control-container color-container brush-color-container-two"
           >
-            <label for="brush-color-picker-two">Brush Color 2:</label>
+            <label for="brush-color-circle-two">Brush Color 2:</label>
+            <div class="color-circle" id="brush-color-circle-two"></div>
             <input
               value="#ff0000"
-              class="control"
+              class="color-picker control"
               id="brush-color-picker-two"
               type="color"
             />
@@ -52,12 +58,13 @@
 
           <div
             title="LMB + hold Ctrl"
-            class="control-container eraser-color-container"
+            class="control-container color-container eraser-color-container"
           >
-            <label for="eraser-color-picker">Eraser Color:</label>
+            <label for="eraser-color-circle-two">Eraser Color:</label>
+            <div class="color-circle" id="eraser-color-circle"></div>
             <input
               value="#ffffff"
-              class="control"
+              class="color-picker control"
               id="eraser-color-picker"
               type="color"
             />
@@ -72,6 +79,28 @@
               max="30"
               value="16"
             />
+          </div>
+          <div class="control-container save-sketch-container">
+            <button
+              title="Save to sketch.json file"
+              class="control save-sketch"
+            >
+              Save Sketch
+            </button>
+          </div>
+          <div class="control-container import-sketch-container">
+            <input
+              type="file"
+              accept="application/JSON"
+              class="control import-sketch"
+            />
+            <button
+              title="Import from sketch.json file"
+              class="import-sketch-btn"
+              type="button"
+            >
+              Import Sketch
+            </button>
           </div>
         </div>
         <div class="sketch-board">
