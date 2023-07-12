@@ -21,6 +21,7 @@ function readSketchFile(e) {
     let colorList = JSON.parse(reader.result);
     removePixels();
     dimentionSize = Math.sqrt(colorList.length);
+    calcPixelSize();
     createPixels();
     for (let i = 0; i < pixels.length; i++) {
       draw(pixels[i], colorList[i]);
@@ -169,6 +170,10 @@ function removePixels() {
   rows = [];
 }
 
+function calcPixelSize() {
+  pixelSize = Math.floor(sketchPixels.clientHeight / dimentionSize);
+}
+
 const sketchPixels = document.querySelector(".sketch-pixels");
 const brushColorPickerOne = document.querySelector("#brush-color-picker-one");
 const brushColorPickerTwo = document.querySelector("#brush-color-picker-two");
@@ -195,7 +200,8 @@ function init() {
   brushColorTwo = brushColorPickerTwo.value;
   eraserColor = eraserColorPicker.value;
   dimentionSize = parseInt(dimentionRange.value);
-  pixelSize = Math.floor(sketchPixels.clientHeight / dimentionSize);
+  // pixelSize =
+  calcPixelSize();
 
   document.querySelector(".toggle-grid").addEventListener("click", (e) => {
     toggleGrid();
