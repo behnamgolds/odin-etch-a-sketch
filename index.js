@@ -21,6 +21,8 @@ function readSketchFile(e) {
     let colorList = JSON.parse(reader.result);
     removePixels();
     dimentionSize = Math.sqrt(colorList.length);
+    dimentionRange.value = dimentionSize;
+    updateDimentionLabel();
     calcPixelSize();
     createPixels();
     for (let i = 0; i < pixels.length; i++) {
