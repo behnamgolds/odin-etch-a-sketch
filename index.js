@@ -2,6 +2,7 @@ function disableWindowEvents() {
   window.ondragstart = (e) => {
     return false;
   };
+
   window.oncontextmenu = (e) => {
     return false;
   };
@@ -32,7 +33,7 @@ function readSketchFile(e) {
   reader.readAsText(this.files[0]);
 }
 
-function genPixelsDLink(e) {
+function makeSketchFile(e) {
   let colorsList = [];
   pixels.forEach((pixel) => {
     colorsList.push(rgbToHex(pixel.style.backgroundColor));
@@ -41,6 +42,7 @@ function genPixelsDLink(e) {
   let file = new Blob([`${JSON.stringify(colorsList)}`], {
     type: "text/plain",
   });
+
   let link = document.createElement("a");
   link.href = URL.createObjectURL(file);
   link.download = "sketch.json";
@@ -76,8 +78,53 @@ function resetColors(e) {
   setBrushColors();
 }
 
+function darkenRGB(rgb) {
+  let colors = rgbtoRgbList(rgb);
+  if (Math.max(colors[0], colors[1], colors[2]) >= 2) {
+    // we dont want to go out of proportions between colors
+    // and since round(2 * 0.98) = 1  then 2 is a safe point
+    for (let i = 0; i < 3; i++) {
+      colors[i] = Math.max(0, Math.floor(colors[i] * 0.98));
+    }
+  }
+  return rgbToHex(colors);
+}
+
+function brightenRGB(rgb) {
+  let colors = rgbtoRgbList(rgb);
+  if (Math.max(colors[0], colors[1], colors[2]) === 0) {
+    // if the color is rgb(0, 0, 0) (black) we can not increase values
+    // with the upcoming calculation since 0 * number = 0
+    for (let i = 0; i < 3; i++) {
+      colors[i] = 50;
+    }
+  }
+
+  if (Math.max(colors[0], colors[1], colors[2]) <= 248) {
+    // we dont want to go out of proportions between colors
+    // and since 250 * 1.02 = 255 then 248 is a safe point
+    for (let i = 0; i < 3; i++) {
+      colors[i] = Math.min(255, Math.ceil(colors[i] * 1.02));
+    }
+  }
+  return rgbToHex(colors);
+}
+
+function rgbtoRgbList(rgb) {
+  rgb = rgb.slice(4, rgb.length - 1).split(",");
+  for (let i = 0; i < 3; i++) {
+    rgb[i] = Number.parseInt(rgb[i]);
+  }
+  return rgb;
+}
+
 function rgbToHex(rgb) {
-  let colors = rgb.slice(4, rgb.length - 1).split(",");
+  let colors;
+  if (Array.isArray(rgb)) {
+    colors = rgb;
+  } else {
+    colors = rgbtoRgbList(rgb);
+  }
   let hex = "#";
   for (let i = 0; i < 3; i++) {
     colors[i] = parseInt(colors[i]).toString(16).padStart(2, "0");
@@ -111,7 +158,17 @@ function draw(pixel, color) {
   pixel.style.backgroundColor = color;
 }
 
+function genRandomRgb() {
+  rgbList = [];
+  for (let i = 0; i <= 3; i++) {
+    rgbList.push(Math.round(Math.random() * 255));
+  }
+  return rgbToHex(rgbList);
+}
+
 function colorPixels(e) {
+  // console.log(e);
+  let color = brushColorOne;
   e.stopPropagation();
   if (e.buttons === 1) {
     if (e.ctrlKey) {
@@ -121,6 +178,26 @@ function colorPixels(e) {
     } else {
       draw(this, brushColorOne);
     }
+  } else if (e.buttons === 4) {
+    if (e.ctrlKey) {
+      color = brightenRGB(this.style.backgroundColor);
+      console.log(color);
+    } else if (e.shiftKey) {
+      color = genRandomRgb();
+      console.log(color);
+    } else {
+      color = darkenRGB(this.style.backgroundColor);
+      console.log(color);
+    }
+    draw(this, color);
+  } else if (e.type === "wheel") {
+    color;
+    if (e.wheelDelta > 0) {
+      color = brightenRGB(this.style.backgroundColor);
+    } else {
+      color = darkenRGB(this.style.backgroundColor);
+    }
+    draw(this, color);
   }
 }
 
@@ -134,8 +211,9 @@ function initializePixel(pixel, i, color) {
   pixel.setAttribute("id", `pix_${i}`);
   pixel.classList.add("pixel");
   pixel.addEventListener("mouseenter", colorPixels);
-  pixel.addEventListener("mousemove", colorPixels);
+  // pixel.addEventListener("mousemove", colorPixels); // mousemove creates thoousands of events per pixel
   pixel.addEventListener("mousedown", colorPixels);
+  pixel.addEventListener("wheel", colorPixels, { passive: true });
   draw(pixel, color);
   pixel.style.minWidth = toPixels(pixelSize);
   pixel.style.minHeight = toPixels(pixelSize);
@@ -150,7 +228,7 @@ function createPixels() {
     for (let j = 1; j <= dimentionSize; j++) {
       row.classList.add("row");
       pixel = document.createElement("div");
-      initializePixel(pixel, dimentionSize * i + j);
+      initializePixel(pixel, dimentionSize * i + j, eraserColor);
       row.appendChild(pixel);
       pixels.push(pixel);
     }
@@ -222,7 +300,7 @@ function init() {
 
   document
     .querySelector(".save-sketch")
-    .addEventListener("click", genPixelsDLink);
+    .addEventListener("click", makeSketchFile);
 
   document
     .querySelector(".import-sketch-btn")

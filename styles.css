@@ -94,6 +94,7 @@ label {
 .control {
   margin: 0;
 }
+
 .pixel {
   flex: auto;
   box-sizing: border-box;
