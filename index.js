@@ -1,4 +1,7 @@
 function disableWindowEvents() {
+  window.onclick = (e) => {
+    aside.classList.remove("aside-show");
+  };
   window.ondragstart = (e) => {
     return false;
   };
@@ -263,7 +266,7 @@ const dimentionRange = document.querySelector("#dimention-range");
 const dimentionLabel = document.querySelector(".dimention-container > label");
 const contextMenu = document.querySelector(".context-menu");
 const importSketch = document.querySelector(".import-sketch");
-// const importSketchBtn = document.querySelector(".import-sketch-btn");
+const aside = document.querySelector(".aside");
 
 let pixels = [];
 let rows = [];
@@ -308,7 +311,16 @@ function init() {
       importSketch.click();
     });
 
+  document.querySelector(".show-help-btn").addEventListener("click", (e) => {
+    e.stopPropagation();
+    aside.classList.toggle("aside-show");
+  });
+
   importSketch.addEventListener("change", readSketchFile);
+
+  aside.addEventListener("mouseleave", (e) => {
+    aside.classList.remove("aside-show");
+  });
 
   brushColorPickerOne.addEventListener("input", (e) => {
     brushColorOne = brushColorPickerOne.value;

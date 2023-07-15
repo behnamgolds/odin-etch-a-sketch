@@ -1,4 +1,5 @@
 body {
+  height: 100vh;
   margin: 0;
   padding: 0;
   background-color: rgb(85, 158, 188);
@@ -8,8 +9,9 @@ body {
 }
 
 h1 {
+  font-size: 2rem;
   flex: none;
-  height: 100%;
+  /* height: 100%; */
   margin: 0;
   text-align: center;
   writing-mode: vertical-lr;
@@ -22,14 +24,17 @@ label {
 }
 
 .page-container {
+  height: 100%;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .sketch-app-container {
-  align-self: flex-end;
+  padding-top: 5vh;
+  /* align-self: stretch; */
   flex: 1;
   display: flex;
   justify-content: space-between;
@@ -140,10 +145,6 @@ label {
   background-color: rgb(111, 189, 220);
 }
 
-.howto {
-  font-size: 1rem;
-}
-
 .color-picker {
   flex: none;
   width: 30px;
@@ -178,7 +179,7 @@ label {
 
 #eraser-color-circle {
   background-color: white;
-  border-color: rgb(244, 87, 241);
+  border-color: gray;
 }
 
 .swap-colors-container {
@@ -219,4 +220,106 @@ label {
 
 .import-sketch {
   display: none;
+}
+
+.aside {
+  position: fixed;
+  right: -250px;
+  top: 0;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  /* display: none; */
+  width: 300px;
+  margin: 0;
+  background-color: rgb(35, 72, 86);
+  transition: 0.4s;
+}
+
+.aside:hover,
+.aside-show {
+  right: 0;
+  transition: 0.4s;
+}
+
+.aside:hover .question-sign {
+  opacity: 0;
+  transition: 1.5s;
+}
+
+.help-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  background-color: rgb(242, 181, 107);
+  width: 100%;
+}
+
+.help-table {
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 5px;
+  border: 1px solid black;
+}
+
+th {
+  background-color: gray;
+}
+
+.help-header {
+  text-align: center;
+  justify-self: flex-start;
+  margin: 0;
+  background-color: rgb(35, 72, 86);
+  color: white;
+  width: 100%;
+}
+
+.more-help {
+  padding: 15px;
+}
+
+.copyright,
+a {
+  color: #f9faf8;
+  writing-mode: vertical-lr;
+  font-size: 0.9em;
+  margin: 0;
+}
+
+.header {
+  margin: 10px auto;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.question-sign {
+  /* border-radius: 50%; */
+  color: #f9faf8;
+  font-size: 2rem;
+  justify-self: flex-start;
+  margin: 0;
+
+  animation: glow 1s 1s 3 alternate;
+  /* text-shadow: 7px 7px 0.5rem #48abe0, -7px -7px 0.5rem #48abe0,
+    -7px 7px 0.5rem #48abe0, 7px -7px 0.5rem #48abe0; */
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 15px 25px #48abe0, inset 0 0 10px 8px #48abe0;
+  }
+  to {
+    box-shadow: 0 0 10px 10px #48abe0, inset 0 0 10px 8px #48abe0;
+
+    /* box-shadow: none; */
+  }
 }

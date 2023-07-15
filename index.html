@@ -102,17 +102,84 @@
               Import Sketch
             </button>
           </div>
+          <div class="control-container show-help-container">
+            <button title="Show Help" class="show-help-btn" type="button">
+              Show Help
+            </button>
+          </div>
         </div>
         <div class="sketch-board">
           <div class="sketch-pixels"></div>
-          <div class="howto">
-            <p>Draw = Mouse LClick | Erase = Mouse LClick + Ctrl</p>
-            <p>Pick Color = RClick on a pixel</p>
-          </div>
         </div>
       </div>
-      <h1>Etch A Sketch</h1>
     </div>
+    <aside class="aside">
+      <div class="header">
+        <p class="question-sign">?</p>
+        <h1>Etch A Sketch</h1>
+        <p class="copyright">
+          Copyright <span class="copyright-sign">©</span>
+          <a target="_blank" href="https://github.com/behnamgolds"
+            >Behnam Golds</a
+          >
+          2023
+        </p>
+      </div>
+      <div class="help-container">
+        <h2 class="help-header">How to use this app</h2>
+        <table class="help-table">
+          <tbody>
+            <tr>
+              <th colspan="2">Basic Sketching</th>
+            </tr>
+            <tr>
+              <th>Brush 1</th>
+              <td>Left Click</td>
+            </tr>
+            <tr>
+              <th>Brush 2</th>
+              <td>Left Click + Shift</td>
+            </tr>
+            <tr>
+              <th>Erase</th>
+              <td>Left Click + Ctrl</td>
+            </tr>
+            <tr>
+              <th colspan="2">Advanced Sketching</th>
+            </tr>
+            <tr>
+              <th rowspan="2">Darkening</th>
+              <td>Mid Click</td>
+            </tr>
+            <tr>
+              <td>Scroll Down</td>
+            </tr>
+            <tr>
+              <th rowspan="2">Brightening</th>
+              <td>Mid Click+ Ctrl</td>
+            </tr>
+            <tr>
+              <td>Scroll Up</td>
+            </tr>
+            <tr>
+              <th>Random</th>
+              <td>Mid Click + Shift</td>
+            </tr>
+            <tr>
+              <th colspan="2">Context Menu</th>
+            </tr>
+            <tr>
+              <th>Pick</th>
+              <td>Right Click on pixel</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="more-help">
+          (*) All the actions can be done on a single pixel or by holding the
+          keys and hovering.
+        </p>
+      </div>
+    </aside>
     <div class="context-menu">
       <div class="context-menu-item pick-for-brush-one">to brush 1 color</div>
       <hr />
