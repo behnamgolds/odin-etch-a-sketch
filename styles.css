@@ -167,11 +167,6 @@ label {
   border: 2px solid beige;
 }
 
-.color-circle {
-  /* z-index: 1000; */
-  /* pointer-events: none; */
-}
-
 #brush-color-circle-one {
   background-color: black;
 }
