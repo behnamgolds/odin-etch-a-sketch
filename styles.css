@@ -113,26 +113,29 @@ label {
 
 .context-menu {
   position: absolute;
+  top: 0;
+  left: 0;
   z-index: 100;
   border: 2px solid rgb(78, 78, 78);
   border-radius: 5px;
-  display: none;
   text-align: left;
   background-color: rgb(85, 158, 188);
   width: max-content;
   height: max-content;
   margin: 0;
+  display: none;
+  /* opacity: 0; */
 }
 
-.context-menu.visible {
+.context-visible {
   display: block;
+  /* opacity: 1; */
+  transition: 0.1s;
 }
 
 .context-menu > div {
-  /* margin: 10px; */
   padding: 20px;
   color: rgb(255, 255, 255);
-  border-radius: inherit;
 }
 
 .context-menu > hr {
@@ -237,7 +240,7 @@ label {
 }
 
 .aside:hover,
-.aside-show {
+.aside-visible {
   right: 0;
   transition: 0.4s;
 }

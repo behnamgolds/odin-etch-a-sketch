@@ -1,6 +1,7 @@
 function disableWindowEvents() {
   window.onclick = (e) => {
-    aside.classList.remove("aside-show");
+    hidePopUps(e);
+    // return false;
   };
   window.ondragstart = (e) => {
     return false;
@@ -15,6 +16,7 @@ function disableWindowEvents() {
   };
 
   window.onkeydown = (e) => {
+    hidePopUps(e);
     if (e.ctrlKey && e.code === "KeyA") return false;
   };
 }
@@ -138,14 +140,21 @@ function rgbToHex(rgb) {
 
 function showContextMenu(e) {
   contextPixel = e.srcElement;
-  contextMenu.classList.add("visible");
-  contextMenu.style.top = `${e.y - 10}px`;
+  contextMenu.classList.add("context-visible");
+  let ypos;
+  if (contextMenu.clientHeight + e.y > document.body.clientHeight) {
+    ypos = e.y - contextMenu.clientHeight + 10;
+  } else {
+    ypos = e.y - 10;
+  }
+  contextMenu.style.top = `${ypos}px`;
   contextMenu.style.left = `${e.x - 10}px`;
 }
 
-function hideContextMenu(e) {
-  e.stopPropagation();
-  contextMenu.classList.remove("visible");
+function hidePopUps(e) {
+  // e.stopPropagation();
+  contextMenu.classList.remove("context-visible");
+  aside.classList.remove("aside-visible");
 }
 
 function updateDimentionLabel() {
@@ -313,14 +322,12 @@ function init() {
 
   document.querySelector(".show-help-btn").addEventListener("click", (e) => {
     e.stopPropagation();
-    aside.classList.toggle("aside-show");
+    aside.classList.toggle("aside-visible");
   });
 
   importSketch.addEventListener("change", readSketchFile);
 
-  aside.addEventListener("mouseleave", (e) => {
-    aside.classList.remove("aside-show");
-  });
+  aside.addEventListener("mouseleave", hidePopUps);
 
   brushColorPickerOne.addEventListener("input", (e) => {
     brushColorOne = brushColorPickerOne.value;
@@ -349,32 +356,33 @@ function init() {
   });
 
   sketchPixels.addEventListener("contextmenu", showContextMenu);
-  contextMenu.addEventListener("mouseleave", hideContextMenu);
-  contextMenu.addEventListener("mouseup", hideContextMenu);
+  contextMenu.addEventListener("mouseleave", hidePopUps);
+  // contextMenu.addEventListener("mouseup", hideContextMenu, { capture: false });
+  contextMenu.addEventListener("contextmenu", (e) => {
+    return false;
+  });
 
   document
     .querySelector(".pick-for-brush-one")
-    .addEventListener("mousedown", (e) => {
+    .addEventListener("click", (e) => {
+      e.stopPropagation();
       brushColorOne = rgbToHex(contextPixel.style.backgroundColor);
       setBrushColors();
-      e.stopPropagation();
     });
 
   document
     .querySelector(".pick-for-brush-two")
-    .addEventListener("mousedown", (e) => {
+    .addEventListener("click", (e) => {
+      e.stopPropagation();
       brushColorTwo = rgbToHex(contextPixel.style.backgroundColor);
       setBrushColors();
-      e.stopPropagation();
     });
 
-  document
-    .querySelector(".pick-for-eraser")
-    .addEventListener("mousedown", (e) => {
-      eraserColor = rgbToHex(contextPixel.style.backgroundColor);
-      setBrushColors();
-      e.stopPropagation();
-    });
+  document.querySelector(".pick-for-eraser").addEventListener("click", (e) => {
+    e.stopPropagation();
+    eraserColor = rgbToHex(contextPixel.style.backgroundColor);
+    setBrushColors();
+  });
 
   createPixels();
 }
